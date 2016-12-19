@@ -16,7 +16,7 @@
       .module('ngPhotoswipe', [])
       .directive('ngPhotoswipe', ngPhotoswipeDirective);
 
-    function ngPhotoswipeDirective($compile, $http, $templateCache) {
+    function ngPhotoswipeDirective($compile, $http, $templateRequest) {
       return {
         restrict: 'AE',
         replace: true,
@@ -34,9 +34,8 @@
       function linkFn(scope, iElement, iAttrs) {
         scope.template = scope.template || 'views/ng-photoswipe.html';
 
-        $http
-          .get(scope.template, { cache: $templateCache })
-          .success(function(html) {
+        $templateRequest(scope.template)
+          .then(function(html){
             var template = angular.element(html);
             iElement.append($compile(template)(scope));
           });
